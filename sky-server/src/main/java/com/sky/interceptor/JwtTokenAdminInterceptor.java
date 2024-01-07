@@ -19,6 +19,8 @@ import javax.servlet.http.HttpServletResponse;
 @Slf4j
 public class JwtTokenAdminInterceptor implements HandlerInterceptor {
 
+    public static ThreadLocal<Long> threadLocal=new ThreadLocal<>();
+
     @Autowired
     private JwtProperties jwtProperties;
 
@@ -46,7 +48,8 @@ public class JwtTokenAdminInterceptor implements HandlerInterceptor {
             log.info("jwt校验:{}", token);
             Claims claims = JwtUtil.parseJWT(jwtProperties.getAdminSecretKey(), token);
             Long empId = Long.valueOf(claims.get(JwtClaimsConstant.EMP_ID).toString());
-            log.info("当前员工id：", empId);
+            log.info("当前员工id：{}", empId);
+            threadLocal.set(empId);
             //3、通过，放行
             return true;
         } catch (Exception ex) {
