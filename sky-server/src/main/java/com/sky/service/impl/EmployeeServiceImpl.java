@@ -97,8 +97,14 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public void statusEmployee(Integer status, Integer id) {
+    public void statusEmployee(Integer status, Long id) {
         employeeMapper.statusEmployee(status,id);
+    }
+
+    @Override
+    public Employee getByIdEmployee(Long id) {
+        Employee employee=employeeMapper.getByIdEmployee(id);
+        return employee;
     }
 
 }

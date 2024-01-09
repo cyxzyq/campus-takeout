@@ -90,9 +90,16 @@ public class EmployeeController {
 
     //启用禁用员工账号
     @PostMapping("/status/{status}")
-    public Result statusEmployee(@PathVariable Integer status,Integer id){
+    public Result statusEmployee(@PathVariable Integer status,Long id){
           log.info("status:{},id:{}",status,id);
           employeeService.statusEmployee(status,id);
           return Result.success();
+    }
+    //员工的回显
+    @GetMapping("/{id}")
+    public Result<Employee> getByIdEmployee(@PathVariable Long id){
+        log.info("查询的员工id:{}",id);
+        Employee employee=employeeService.getByIdEmployee(id);
+        return Result.success(employee);
     }
 }

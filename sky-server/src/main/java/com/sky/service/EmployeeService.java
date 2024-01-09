@@ -19,5 +19,7 @@ public interface EmployeeService {
 
     PageResult findByEmployee(EmployeePageQueryDTO employeePageQueryDTO);
 
-    void statusEmployee(Integer status, Integer id);
+    void statusEmployee(Integer status, Long id);
+
+    Employee getByIdEmployee(Long id);
 }
