@@ -87,4 +87,12 @@ public class EmployeeController {
         PageResult pageResult = employeeService.findByEmployee(employeePageQueryDTO);
         return Result.success(pageResult);
     }
+
+    //启用禁用员工账号
+    @PostMapping("/status/{status}")
+    public Result statusEmployee(@PathVariable Integer status,Integer id){
+          log.info("status:{},id:{}",status,id);
+          employeeService.statusEmployee(status,id);
+          return Result.success();
+    }
 }
