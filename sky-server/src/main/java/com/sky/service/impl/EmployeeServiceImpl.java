@@ -15,16 +15,12 @@ import com.sky.interceptor.JwtTokenAdminInterceptor;
 import com.sky.mapper.EmployeeMapper;
 import com.sky.result.PageResult;
 import com.sky.service.EmployeeService;
-import com.sun.xml.internal.bind.v2.TODO;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 import static com.sky.constant.PasswordConstant.DEFAULT_PASSWORD;
 import static com.sky.constant.StatusConstant.ENABLE;
