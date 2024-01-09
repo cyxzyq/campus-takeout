@@ -72,6 +72,7 @@ public class EmployeeController {
     public Result<String> logout() {
         return Result.success();
     }
+
     //新增员工
     @PostMapping
     public Result addEmployee(@RequestBody EmployeeDTO employeeDTO){
@@ -95,11 +96,20 @@ public class EmployeeController {
           employeeService.statusEmployee(status,id);
           return Result.success();
     }
-    //员工的回显
+
+    //根据id查询员工
     @GetMapping("/{id}")
     public Result<Employee> getByIdEmployee(@PathVariable Long id){
         log.info("查询的员工id:{}",id);
         Employee employee=employeeService.getByIdEmployee(id);
         return Result.success(employee);
+    }
+
+    //编辑员工信息
+    @PutMapping
+    public Result updateEmployee(@RequestBody EmployeeDTO employeeDTO){
+        log.info("员工信息更新内容：{}",employeeDTO);
+        employeeService.updateEmployee(employeeDTO);
+        return Result.success();
     }
 }

@@ -11,4 +11,31 @@
         </where>
         order by update_time
     </select>
+    <update id="updateEmployee">
+        update employee
+        <set>
+            <if test="username!=null and username!=''">
+                username=#{username},
+            </if>
+            <if test="name!=null and name!=''">
+                name=#{name},
+            </if>
+            <if test="phone!=null and phone!=''">
+                phone=#{phone},
+            </if>
+            <if test="sex!=null and sex!=''">
+                sex=#{sex},
+            </if>
+            <if test="idNumber!=null and idNumber!=''">
+                id_number=#{idNumber},
+            </if>
+            <if test="updateTime!=null">
+                update_time=#{updateTime},
+            </if>
+            <if test="updateUser!=null and updateUser!=''">
+                update_user=#{updateUser},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
 </mapper>
