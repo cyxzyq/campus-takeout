@@ -9,6 +9,8 @@ import org.apache.ibatis.annotations.Mapper;
 public interface CategoryMapper {
 
 
+    void updateCategory(Category category);
+
     //分类分页查询
-    public Page<Category> findByPageCategory(CategoryPageQueryDTO categoryPageQueryDTO);
+    Page<Category> findByPageCategory(CategoryPageQueryDTO categoryPageQueryDTO);
 }
