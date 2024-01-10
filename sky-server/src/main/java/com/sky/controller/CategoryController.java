@@ -49,4 +49,12 @@ public class CategoryController {
         categoryService.addCategory(categoryDTO);
         return Result.success();
     }
+
+    //根据id删除分类
+    @DeleteMapping()
+    public Result delectCategory(Long id){
+        log.info("删除员工id：{}",id);
+        categoryService.delectCategory(id);
+        return Result.success();
+    }
 }

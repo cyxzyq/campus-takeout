@@ -13,4 +13,6 @@ public interface CategoryService {
     void statusCategory(Integer status, Long id);
 
     void addCategory(CategoryDTO categoryDTO);
+
+    void delectCategory(Long id);
 }
