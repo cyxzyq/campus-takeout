@@ -38,4 +38,13 @@
         </set>
         where id = #{id}
     </update>
+    <update id="updatePassword">
+       update employee 
+       <set>
+           <if test="newPassword!=null and newPassword!=''">
+               password=#{newPassword}
+           </if>
+       </set>
+       where id=#{empId}
+    </update>
 </mapper>

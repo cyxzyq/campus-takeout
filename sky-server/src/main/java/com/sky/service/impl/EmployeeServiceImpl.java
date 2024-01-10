@@ -7,6 +7,7 @@ import com.sky.constant.StatusConstant;
 import com.sky.dto.EmployeeDTO;
 import com.sky.dto.EmployeeLoginDTO;
 import com.sky.dto.EmployeePageQueryDTO;
+import com.sky.dto.PasswordEditDTO;
 import com.sky.entity.Employee;
 import com.sky.exception.AccountLockedException;
 import com.sky.exception.AccountNotFoundException;
@@ -53,6 +54,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         //密码比对
         //对前端传进来的密码进行md5编码
         password = DigestUtils.md5DigestAsHex(password.getBytes());
+        //将密码存储在threadLocal中
         if (!password.equals(employee.getPassword())) {
             //密码错误
             throw new PasswordErrorException(MessageConstant.PASSWORD_ERROR);
@@ -62,7 +64,6 @@ public class EmployeeServiceImpl implements EmployeeService {
             //账号被锁定
             throw new AccountLockedException(MessageConstant.ACCOUNT_LOCKED);
         }
-
         //3、返回实体对象
         return employee;
     }
@@ -110,6 +111,23 @@ public class EmployeeServiceImpl implements EmployeeService {
         employee.setUpdateTime(LocalDateTime.now());
         employee.setUpdateUser(JwtTokenAdminInterceptor.threadLocal.get());
         employeeMapper.updateEmployee(employee);
+    }
+
+    @Override
+    public void updatePassword(PasswordEditDTO passwordEditDTO) {
+           //在ThreadLocal里获取empId
+           passwordEditDTO.setEmpId(JwtTokenAdminInterceptor.threadLocal.get());
+           //在数据库里面查询当前账户的密码
+            String password=employeeMapper.findPassword(passwordEditDTO.getEmpId());
+            //对用户输入的旧密码进行md5加密
+            String oldPassword=DigestUtils.md5DigestAsHex(passwordEditDTO.getOldPassword().getBytes());
+           //判断旧密码是否正确
+           if(!oldPassword.equals(password)){
+               throw new PasswordErrorException(MessageConstant.PASSWORD_EDIT_FAILED);
+           }
+           //对新密码进行md加密
+           passwordEditDTO.setNewPassword(DigestUtils.md5DigestAsHex(passwordEditDTO.getNewPassword().getBytes()));
+           employeeMapper.updatePassword(passwordEditDTO);
     }
 
 }

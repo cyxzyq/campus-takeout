@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface CategoryMapper {
 
-
+    //修改分类
     void updateCategory(Category category);
 
     //分类分页查询
