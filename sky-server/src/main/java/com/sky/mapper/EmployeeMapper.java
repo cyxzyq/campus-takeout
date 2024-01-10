@@ -33,7 +33,7 @@ public interface EmployeeMapper {
 
     //启用，禁用员工账号
     @Select("update employee set status = #{status} where id=#{id}")
-    void statusEmployee(Integer status, Long id);
+    void statusEmployee(@Param("status") Integer status,@Param("id") Long id);
 
     //根据id查询员工
     @Select("select * from employee where id=#{id}")

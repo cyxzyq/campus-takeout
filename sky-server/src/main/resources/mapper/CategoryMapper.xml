@@ -15,7 +15,7 @@
       </where>
       order by sort,update_time desc
 </select>
-    <update id="updateCategory">
+    <update id="updateCategory" parameterType="com.sky.entity.Category">
        update category
        <set>
            <if test="name!=null and name!=''">
@@ -36,4 +36,22 @@
        </set>
            where id=#{id}
     </update>
+    <update id="statusCategory" parameterType="com.sky.entity.Category">
+        update category
+        <set>
+            <if test="status!=null">
+                status=#{status},
+            </if>
+            <if test="updateTime!=null">
+                update_time=#{updateTime},
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+    <insert id="addCategory" parameterType="com.sky.entity.Category">
+        insert into category
+        values (#{id},#{type},#{name},#{sort},#{status},#{createTime},
+               #{updateTime},
+                #{createUser},#{updateUser})
+    </insert>
 </mapper>

@@ -2,6 +2,7 @@ package com.sky.service.impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.sky.constant.StatusConstant;
 import com.sky.dto.CategoryDTO;
 import com.sky.dto.CategoryPageQueryDTO;
 import com.sky.entity.Category;
@@ -30,6 +31,34 @@ public class CategoryServiceImpl implements CategoryService {
         Page<Category> page=categoryMapper.findByPageCategory(categoryPageQueryDTO);
         PageResult pageResult=new PageResult(page.getTotal(),page.getResult());
         return pageResult;
+    }
+
+    //启用禁用分类
+    @Override
+    public void statusCategory(Integer status,Long id) {
+        Category category = new Category();
+        category.setId(id);
+        category.setStatus(status);
+        category.setUpdateTime(LocalDateTime.now());
+        category.setUpdateUser(JwtTokenAdminInterceptor.threadLocal.get());
+        categoryMapper.statusCategory(category);
+    }
+
+    //新增分类
+    @Override
+    public void addCategory(CategoryDTO categoryDTO) {
+        Category category = new Category();
+        //将categoryDTO拷贝到category中
+        BeanUtils.copyProperties(categoryDTO,category);
+        //为category的createTime赋值
+        category.setCreateTime(LocalDateTime.now());
+        //为category的createUser赋值
+        category.setCreateUser(JwtTokenAdminInterceptor.threadLocal.get());
+        //status默认为禁用
+        category.setStatus(StatusConstant.DISABLE);
+        category.setUpdateUser(JwtTokenAdminInterceptor.threadLocal.get());
+        category.setUpdateTime(LocalDateTime.now());
+        categoryMapper.addCategory(category);
     }
 
     //修改分类

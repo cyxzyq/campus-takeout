@@ -68,6 +68,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employee;
     }
 
+    //新增员工
     @Override
     public void addEmployee(EmployeeDTO employeeDTO) {
         Employee employee = new Employee();
@@ -85,6 +86,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         employeeMapper.addEmployee(employee);
     }
 
+    //员工分页查询
     @Override
     public PageResult findByEmployee(EmployeePageQueryDTO employeePageQueryDTO) {
         PageHelper.startPage(employeePageQueryDTO.getPage(),employeePageQueryDTO.getPageSize());
@@ -93,17 +95,20 @@ public class EmployeeServiceImpl implements EmployeeService {
         return pageResult;
     }
 
+    //启用，禁用员工账号
     @Override
     public void statusEmployee(Integer status, Long id) {
         employeeMapper.statusEmployee(status,id);
     }
 
+    //根据id查询员工
     @Override
     public Employee getByIdEmployee(Long id) {
         Employee employee=employeeMapper.getByIdEmployee(id);
         return employee;
     }
 
+    //编辑员工信息
     @Override
     public void updateEmployee(EmployeeDTO employeeDTO) {
         Employee employee = new Employee();
@@ -113,6 +118,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         employeeMapper.updateEmployee(employee);
     }
 
+    //修改员工密码
     @Override
     public void updatePassword(PasswordEditDTO passwordEditDTO) {
            //在ThreadLocal里获取empId
