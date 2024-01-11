@@ -88,6 +88,12 @@ public class CategoryServiceImpl implements CategoryService {
         categoryMapper.delect(id);
     }
 
+    //根据分类类型查询
+    @Override
+    public List<Category> list(Integer type) {
+        return categoryMapper.list(type);
+    }
+
     //修改分类
     @Override
     public void updateCategory(CategoryDTO categoryDTO) {

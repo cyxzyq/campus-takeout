@@ -11,6 +11,6 @@ import java.util.List;
 public interface SetmealMapper {
 
     //根据分类id查询套餐
-    @Select("select * from setmeal where category_id=#{categoryId}")
-    List<Setmeal> findByIdSetmeal(@Param("categoryId") Long id);
+    @Select("select * from setmeal where category_id=#{id}")
+    List<Setmeal> findByIdSetmeal(Long id);
 }

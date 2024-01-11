@@ -12,6 +12,6 @@ import java.util.List;
 public interface DishMapper {
 
     //根据分类id查询菜品
-    @Select("select * from Dish where category_id=#{categoryId}")
-    List<Dish> findByIdDish(@Param("categoryId") Long id);
+    @Select("select * from Dish where category_id=#{id}")
+    List<Dish> findByIdDish(Long id);
 }
