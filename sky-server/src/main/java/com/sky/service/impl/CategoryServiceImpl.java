@@ -2,12 +2,18 @@ package com.sky.service.impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.sky.constant.MessageConstant;
 import com.sky.constant.StatusConstant;
 import com.sky.dto.CategoryDTO;
 import com.sky.dto.CategoryPageQueryDTO;
 import com.sky.entity.Category;
+import com.sky.entity.Dish;
+import com.sky.entity.Setmeal;
+import com.sky.exception.DeletionNotAllowedException;
 import com.sky.interceptor.JwtTokenAdminInterceptor;
 import com.sky.mapper.CategoryMapper;
+import com.sky.mapper.DishMapper;
+import com.sky.mapper.SetmealMapper;
 import com.sky.result.PageResult;
 import com.sky.service.CategoryService;
 import org.springframework.beans.BeanUtils;
@@ -15,13 +21,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 //分类业务层
 @Service
 public class CategoryServiceImpl implements CategoryService {
     @Autowired
     CategoryMapper categoryMapper;
-
+    @Autowired
+    DishMapper dishMapper;
+    @Autowired
+    SetmealMapper setmealMapper;
 
     //分类分页查询逻辑
     @Override
@@ -64,6 +74,17 @@ public class CategoryServiceImpl implements CategoryService {
     //根据id删除分类
     @Override
     public void delectCategory(Long id) {
+        List<Dish> dish = dishMapper.findByIdDish(id);
+        List<Setmeal> setmeal=setmealMapper.findByIdSetmeal(id);
+        //判断该分类是否关联了菜品
+        if(dish!=null){
+            throw new DeletionNotAllowedException(MessageConstant.CATEGORY_BE_RELATED_BY_DISH);
+        }
+        //判断该分类是否关联了套餐
+        if(setmeal!=null){
+            throw  new DeletionNotAllowedException(MessageConstant.CATEGORY_BE_RELATED_BY_SETMEAL);
+        }
+        //删除分类
         categoryMapper.delect(id);
     }
 
