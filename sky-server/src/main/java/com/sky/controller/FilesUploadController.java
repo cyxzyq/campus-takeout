@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.UUID;
 
 @RestController
 @Slf4j
@@ -20,20 +19,10 @@ public class FilesUploadController {
     AliOssUtil aliOssUtil;
 
     @PostMapping
-    public Result<String> upload(MultipartFile file) {
+    public Result<String> upload(MultipartFile file) throws IOException {
         log.info("文件上传：{}", file);
-        try {
-            //截取原始文件名的后缀  sdgsdg.png
-            String originalFilename = file.getOriginalFilename();
-            String substring = originalFilename.substring(originalFilename.lastIndexOf("."));
-            //构造新的文件名
-            String objectName = UUID.randomUUID().toString() + substring;
             //文件的请求路径
-            String filePat = aliOssUtil.upload(file.getBytes(), objectName);
+            String filePat = aliOssUtil.upload(file);
             return Result.success(filePat);
-        } catch (IOException e) {
-            log.info("文件上传失败：{}",e);
-        }
-        return null;
     }
 }
