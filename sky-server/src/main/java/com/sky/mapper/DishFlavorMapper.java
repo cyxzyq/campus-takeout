@@ -12,4 +12,7 @@ public interface DishFlavorMapper {
 
     //新增菜品口味数据
     void addDishFlavor(List<DishFlavor> dishFlavor);
+
+    //删除菜品关联的口味信息
+    void delectDishFlavor(List<Long> id);
 }

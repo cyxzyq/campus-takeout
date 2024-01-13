@@ -10,6 +10,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 //菜品请求层
 @RestController
 @Slf4j
@@ -33,5 +37,13 @@ public class DishController {
         log.info("菜品分页查询：{}",dishPageQueryDTO);
         PageResult pageResult=dishService.page(dishPageQueryDTO);
         return Result.success(pageResult);
+    }
+
+    //菜品批量删除
+    @DeleteMapping
+    public Result delectDish(@RequestParam List<Long> ids){
+        log.info("删除菜品的id:{}",ids);
+        dishService.delectDish(ids);
+        return Result.success();
     }
 }

@@ -14,11 +14,18 @@ public interface DishMapper {
 
     //根据分类id查询菜品
     @Select("select * from Dish where category_id=#{id}")
-    List<Dish> findByIdDish(Long id);
+    List<Dish> findByCategoryId(Long id);
 
     //新增菜品
     void addDish(Dish dish);
 
     //菜品分页查询
     Page<DishVO> page(DishPageQueryDTO dishPageQueryDTO);
+
+    //根据id删除菜品
+    void delectDish(List<Long> ids);
+
+    //根据id查询菜品
+    @Select("select * from dish where id=#{id}")
+    Dish findByIdDish(Long id);
 }

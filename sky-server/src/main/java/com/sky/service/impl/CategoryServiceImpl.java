@@ -74,7 +74,7 @@ public class CategoryServiceImpl implements CategoryService {
     //根据id删除分类
     @Override
     public void delectCategory(Long id) {
-        List<Dish> dish = dishMapper.findByIdDish(id);
+        List<Dish> dish = dishMapper.findByCategoryId(id);
         List<Setmeal> setmeal=setmealMapper.findByIdSetmeal(id);
         //判断该分类是否关联了菜品
         if(dish!=null){
