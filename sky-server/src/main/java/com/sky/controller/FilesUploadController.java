@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
+//文件上传
 @RestController
 @Slf4j
 @RequestMapping("/admin/common/upload")
@@ -18,6 +19,7 @@ public class FilesUploadController {
     @Autowired
     AliOssUtil aliOssUtil;
 
+    //文件上传
     @PostMapping
     public Result<String> upload(MultipartFile file) throws IOException {
         log.info("文件上传：{}", file);
