@@ -31,8 +31,12 @@ public interface DishMapper {
     @Select("select * from dish where id=#{id}")
     Dish findByIdDish(Long id);
 
+    //菜品的起售、停售
     void statusDish(@Param("status") Integer status ,
                     @Param("id") Long id,
                     @Param("updateUser") Long updateUser,
                     @Param("updateTime") LocalDateTime updateTime);
+
+    //修改菜品
+    void updateDish(Dish dish);
 }

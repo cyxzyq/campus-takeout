@@ -15,4 +15,8 @@ public interface DishService {
     void delectDish(List<Long> ids);
 
     void statusDish(Integer status,Long id);
+
+    void updateDish(DishVO dishVO);
+
+    DishVO findByIdDish(Long id);
 }

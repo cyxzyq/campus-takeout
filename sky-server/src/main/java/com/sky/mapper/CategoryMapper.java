@@ -23,7 +23,6 @@ public interface CategoryMapper {
     void statusCategory(Category category);
 
     //新增分类
-
     void addCategory(Category category);
 
     //根据id删除分类
@@ -33,4 +32,8 @@ public interface CategoryMapper {
     //根据分类类型查询
     @Select("select * from category where type=#{type} order by sort,update_time desc")
     List<Category> list(Integer type);
+
+    //根据菜品id查询菜品名称
+    @Select("select name from category where id=#{categoryId}")
+    String findByCategoryIdCategoryName(Long categoryId);
 }

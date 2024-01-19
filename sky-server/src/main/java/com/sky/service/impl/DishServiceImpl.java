@@ -36,6 +36,8 @@ public class DishServiceImpl implements DishService {
     SetmealDishMapper setmealDishMapper;
     @Autowired
     SetmealMapper setmealMapper;
+    @Autowired
+    CategoryMapper categoryMapper;
 
     //新增菜品
     @Transactional
@@ -113,5 +115,50 @@ public class DishServiceImpl implements DishService {
           //根据id查询套餐并修改status值
          setmealMapper.findByIdSetmeal(status,setmealIdList,updateUser,updateTime);
         }
+    }
+
+    //修改菜品
+    @Transactional
+    @Override
+    public void updateDish(DishVO dishVO) {
+        //获取当前操作人的id
+        Long updateUser=JwtTokenAdminInterceptor.threadLocal.get();
+        //获取当前操作时间
+        LocalDateTime updateTime=LocalDateTime.now();
+        Dish dish = new Dish();
+        BeanUtils.copyProperties(dishVO, dish);
+        dish.setUpdateUser(updateUser);
+        dish.setUpdateTime(updateTime);
+        //修改菜品的数据库
+        dishMapper.updateDish(dish);
+        //获取菜品id赋值给菜品口味表
+        for (DishFlavor flavor : dishVO.getFlavors()) {
+            flavor.setDishId(dishVO.getId());
+        }
+        //判断菜品是否有相关口味，有则删除所有相关口味
+        if(dishVO.getFlavors()!=null && dishVO.getFlavors().size()>0){
+            List<Long> longList=new ArrayList<>();
+            longList.add(dishVO.getId());
+            //删除数据库中菜品口味信息
+            dishFlavorMapper.delectDishFlavor(longList);
+        }
+        //新增菜品口味
+        dishFlavorMapper.addDishFlavor(dishVO.getFlavors());
+    }
+
+    //根据id查询菜品
+    @Override
+    public DishVO findByIdDish(Long id) {
+        //根据id查询菜品信息
+        Dish dish = dishMapper.findByIdDish(id);
+        DishVO dishVO = new DishVO();
+        BeanUtils.copyProperties(dish,dishVO);
+        //获取分类的名字
+        String categoryName = categoryMapper.findByCategoryIdCategoryName(dishVO.getCategoryId());
+        dishVO.setCategoryName(categoryName);
+        //获取菜品口味信息
+        List<DishFlavor> dishFlavors = dishFlavorMapper.findBydishId(id);
+        dishVO.setFlavors(dishFlavors);
+        return dishVO;
     }
 }
