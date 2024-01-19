@@ -9,4 +9,25 @@
             #{id}
         </foreach>
     </update>
+
+    <select id="page" resultType="com.sky.vo.SetmealVO">
+        SELECT
+            setmeal.*,
+            category.NAME AS categoryName
+        FROM
+            setmeal
+                LEFT JOIN category ON setmeal.category_id = category.id
+        <where>
+            <if test="name!=null and name!=''">
+                and setmeal.name like concat('%',#{name},'%')
+            </if>
+            <if test="categoryId !=null">
+                and category_id=#{categoryId}
+            </if>
+            <if test="status!=null">
+                and setmeal.status=#{status}
+            </if>
+        </where>
+        order by update_time desc
+    </select>
 </mapper>
