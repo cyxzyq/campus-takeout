@@ -121,11 +121,11 @@ public class EmployeeServiceImpl implements EmployeeService {
     //修改员工密码
     @Override
     public void updatePassword(PasswordEditDTO passwordEditDTO) {
-           //在ThreadLocal里获取empId
+//           在ThreadLocal里获取empId
            passwordEditDTO.setEmpId(JwtTokenAdminInterceptor.threadLocal.get());
-           //在数据库里面查询当前账户的密码
+//           在数据库里面查询当前账户的密码
             String password=employeeMapper.findPassword(passwordEditDTO.getEmpId());
-            //对用户输入的旧密码进行md5加密
+//            对用户输入的旧密码进行md5加密
             String oldPassword=DigestUtils.md5DigestAsHex(passwordEditDTO.getOldPassword().getBytes());
            //判断旧密码是否正确
            if(!oldPassword.equals(password)){

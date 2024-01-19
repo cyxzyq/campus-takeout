@@ -30,5 +30,8 @@
             #{id}
         </foreach>
     </delete>
-
+    <update id="statusDish">
+        update dish set status=#{status},update_user=#{updateUser},update_time=#{updateTime}
+        where id=#{id}
+    </update>
 </mapper>

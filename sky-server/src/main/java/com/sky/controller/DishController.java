@@ -5,14 +5,10 @@ import com.sky.dto.DishPageQueryDTO;
 import com.sky.result.PageResult;
 import com.sky.result.Result;
 import com.sky.service.DishService;
-import com.sky.vo.DishVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 //菜品请求层
 @RestController
@@ -44,6 +40,14 @@ public class DishController {
     public Result delectDish(@RequestParam List<Long> ids){
         log.info("删除菜品的id:{}",ids);
         dishService.delectDish(ids);
+        return Result.success();
+    }
+
+    //菜品的起售、停售
+    @PostMapping("/status/{status}")
+    public Result statusDish(@PathVariable Integer status,Long id){
+        log.info("菜品的起售、停售：status：{}，id：{}",status,id);
+        dishService.statusDish(status,id);
         return Result.success();
     }
 }

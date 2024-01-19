@@ -8,12 +8,10 @@ import com.sky.dto.DishDTO;
 import com.sky.dto.DishPageQueryDTO;
 import com.sky.entity.Dish;
 import com.sky.entity.DishFlavor;
+import com.sky.entity.Setmeal;
 import com.sky.exception.DeletionNotAllowedException;
 import com.sky.interceptor.JwtTokenAdminInterceptor;
-import com.sky.mapper.CategoryMapper;
-import com.sky.mapper.DishFlavorMapper;
-import com.sky.mapper.DishMapper;
-import com.sky.mapper.SetmealDishMapper;
+import com.sky.mapper.*;
 import com.sky.result.PageResult;
 import com.sky.service.DishService;
 import com.sky.vo.DishVO;
@@ -23,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 //菜品业务处理层
@@ -35,6 +34,8 @@ public class DishServiceImpl implements DishService {
     DishFlavorMapper dishFlavorMapper;
     @Autowired
     SetmealDishMapper setmealDishMapper;
+    @Autowired
+    SetmealMapper setmealMapper;
 
     //新增菜品
     @Transactional
@@ -92,5 +93,25 @@ public class DishServiceImpl implements DishService {
             dishMapper.delectDish(ids);
             //删除菜品关联的口味
             dishFlavorMapper.delectDishFlavor(ids);
+    }
+
+    //菜品的起售、停售
+    @Transactional
+    @Override
+    public void statusDish(Integer status,Long id) {
+        //获取当前操作人的id
+        Long updateUser=JwtTokenAdminInterceptor.threadLocal.get();
+        //获取当前操作时间
+        LocalDateTime updateTime=LocalDateTime.now();
+        //操作数据库
+        dishMapper.statusDish(status,id,updateUser,updateTime);
+        List<Long> ids=new ArrayList<>();
+        ids.add(id);
+        //判断菜品是否与套餐关联并返回菜品的id
+        List<Long> setmealIdList=setmealDishMapper.getSetmealByDish(ids);
+        if(setmealIdList!=null && setmealIdList.size()>0){
+          //根据id查询套餐并修改status值
+         setmealMapper.findByIdSetmeal(status,setmealIdList,updateUser,updateTime);
+        }
     }
 }
