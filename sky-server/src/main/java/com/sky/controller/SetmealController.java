@@ -27,9 +27,17 @@ public class SetmealController {
 
     //新建套餐
     @PostMapping
-    public Result addSetmeal(@RequestBody SetmealDTO setmealDTO){
-        log.info("新建菜品:{}",setmealDTO);
+    public Result addSetmeal(@RequestBody SetmealDTO setmealDTO) {
+        log.info("新建菜品:{}", setmealDTO);
         setmealService.addSetmeal(setmealDTO);
+        return Result.success();
+    }
+
+    //套餐的起售、停售
+    @PostMapping("/status/{status}")
+    public Result statusSetmeal(@PathVariable Integer status, Long id) {
+        log.info("套餐的id:{},起售、停售:{}", id, status);
+        setmealService.statusSetmeal(id,status);
         return Result.success();
     }
 }

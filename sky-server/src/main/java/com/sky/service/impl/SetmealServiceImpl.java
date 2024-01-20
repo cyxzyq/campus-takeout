@@ -2,12 +2,16 @@ package com.sky.service.impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.sky.constant.MessageConstant;
 import com.sky.constant.StatusConstant;
 import com.sky.dto.SetmealDTO;
 import com.sky.dto.SetmealPageQueryDTO;
+import com.sky.entity.Dish;
 import com.sky.entity.Setmeal;
 import com.sky.entity.SetmealDish;
+import com.sky.exception.DeletionNotAllowedException;
 import com.sky.interceptor.JwtTokenAdminInterceptor;
+import com.sky.mapper.DishMapper;
 import com.sky.mapper.SetmealDishMapper;
 import com.sky.mapper.SetmealMapper;
 import com.sky.result.PageResult;
@@ -61,5 +65,23 @@ public class SetmealServiceImpl implements SetmealService {
         }
         //操作套餐菜品关系表
         setmealDishMapper.addSetmealDish(setmealDish);
+    }
+
+    //套餐的起售、停售
+    @Override
+    public void statusSetmeal(Long id, Integer status) {
+        if(status.equals(StatusConstant.DISABLE)){
+            //停售套餐
+            setmealMapper.statusSetmeal(id,status);
+            return;
+        }
+        //根据套餐id和status=0查询菜品
+        List<Dish> dishList=setmealDishMapper.finddishBysetmealId(id);
+        //若查询到的菜品不为空则不允许起售套餐
+        if(dishList!=null && dishList.size()>0){
+            throw new DeletionNotAllowedException(MessageConstant.SETMEAL_ENABLE_FAILED);
+        }
+        //起售套餐
+        setmealMapper.statusSetmeal(id,status);
     }
 }

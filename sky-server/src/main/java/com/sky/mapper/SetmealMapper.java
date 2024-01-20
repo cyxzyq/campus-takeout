@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
+import javax.naming.Name;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -30,4 +31,8 @@ public interface SetmealMapper {
 
     //新建菜品
     void addSetmeal(Setmeal setmeal);
+
+    //起售、停售套餐
+    @Select("update setmeal set status=#{status} where id=#{id}")
+    void statusSetmeal(@Param("id") Long id, @Param("status") Integer status);
 }
