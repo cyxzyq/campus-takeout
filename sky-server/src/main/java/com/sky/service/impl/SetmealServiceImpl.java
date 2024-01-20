@@ -84,4 +84,14 @@ public class SetmealServiceImpl implements SetmealService {
         //起售套餐
         setmealMapper.statusSetmeal(id,status);
     }
+
+    //根据套餐id查询套餐
+    @Override
+    public SetmealVO findSetmealById(Long id) {
+        //根据套餐id查询套餐关联菜品信息
+        List<SetmealDish> setmealDishes=setmealDishMapper.findsetmealDishesById(id);
+        SetmealVO setmealVO = setmealMapper.findSetmealById(id);
+        setmealVO.setSetmealDishes(setmealDishes);
+        return setmealVO;
+    }
 }

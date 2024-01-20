@@ -35,4 +35,10 @@ public interface SetmealMapper {
     //起售、停售套餐
     @Select("update setmeal set status=#{status} where id=#{id}")
     void statusSetmeal(@Param("id") Long id, @Param("status") Integer status);
+
+    //根据套餐id查询套餐和分类名称
+    @Select("select category.name as categoryName,setmeal.*" +
+            "from setmeal left join category on setmeal.category_id=category.id " +
+            "where setmeal.id=#{id}")
+    SetmealVO findSetmealById(Long id);
 }

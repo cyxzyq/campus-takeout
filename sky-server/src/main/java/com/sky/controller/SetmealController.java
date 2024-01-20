@@ -5,6 +5,7 @@ import com.sky.dto.SetmealPageQueryDTO;
 import com.sky.result.PageResult;
 import com.sky.result.Result;
 import com.sky.service.SetmealService;
+import com.sky.vo.SetmealVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -39,5 +40,13 @@ public class SetmealController {
         log.info("套餐的id:{},起售、停售:{}", id, status);
         setmealService.statusSetmeal(id,status);
         return Result.success();
+    }
+
+    //根据套餐id查询套餐
+    @GetMapping("/{id}")
+    public Result<SetmealVO> findSetmealById(@PathVariable Long id){
+        log.info("套餐id：{}",id);
+        SetmealVO setmealVO=setmealService.findSetmealById(id);
+        return  Result.success(setmealVO);
     }
 }

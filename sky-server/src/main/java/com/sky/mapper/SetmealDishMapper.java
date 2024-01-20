@@ -19,4 +19,8 @@ public interface SetmealDishMapper {
     //根据套餐id和status=0查询菜品
     @Select("select dish.* from setmeal_dish LEFT JOIN dish ON setmeal_dish.dish_id = dish.id where setmeal_id=#{id} and status=0")
     List<Dish> finddishBysetmealId(Long id);
+
+    //根据套餐id查询套餐关联菜品信息
+    @Select("select * from setmeal_dish where setmeal_id=#{id}")
+    List<SetmealDish> findsetmealDishesById(Long id);
 }
