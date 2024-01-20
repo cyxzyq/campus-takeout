@@ -28,6 +28,10 @@
                 and setmeal.status=#{status}
             </if>
         </where>
-        order by update_time desc
+        order by create_time desc
     </select>
+
+    <insert id="addSetmeal" useGeneratedKeys="true" keyProperty="id">
+        insert into setmeal values(#{id},#{categoryId},#{name},#{price},#{status},#{description},#{image},#{createTime},#{updateTime},#{createUser},#{updateUser})
+    </insert>
 </mapper>

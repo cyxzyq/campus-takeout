@@ -161,4 +161,10 @@ public class DishServiceImpl implements DishService {
         dishVO.setFlavors(dishFlavors);
         return dishVO;
     }
+
+    //根据分类id查询菜品
+    @Override
+    public List<Dish> findByCategoryIdDish(Long id) {
+        return dishMapper.findByCategoryId(id);
+    }
 }

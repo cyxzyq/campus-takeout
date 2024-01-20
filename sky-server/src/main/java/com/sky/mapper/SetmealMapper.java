@@ -27,4 +27,7 @@ public interface SetmealMapper {
 
     //套餐分页查询
     Page<SetmealVO> page(SetmealPageQueryDTO setmealPageQueryDTO);
+
+    //新建菜品
+    void addSetmeal(Setmeal setmeal);
 }
