@@ -1,5 +1,6 @@
 package com.sky.service.impl;
 
+import com.alibaba.druid.sql.visitor.functions.If;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.sky.constant.MessageConstant;
@@ -11,7 +12,6 @@ import com.sky.entity.Setmeal;
 import com.sky.entity.SetmealDish;
 import com.sky.exception.DeletionNotAllowedException;
 import com.sky.interceptor.JwtTokenAdminInterceptor;
-import com.sky.mapper.DishMapper;
 import com.sky.mapper.SetmealDishMapper;
 import com.sky.mapper.SetmealMapper;
 import com.sky.result.PageResult;
@@ -93,5 +93,49 @@ public class SetmealServiceImpl implements SetmealService {
         SetmealVO setmealVO = setmealMapper.findSetmealById(id);
         setmealVO.setSetmealDishes(setmealDishes);
         return setmealVO;
+    }
+
+    //修改套餐
+    @Transactional
+    @Override
+    public void updateSetmeal(SetmealDTO setmealDTO) {
+        Setmeal setmeal = new Setmeal();
+        BeanUtils.copyProperties(setmealDTO,setmeal);
+        setmeal.setUpdateTime(LocalDateTime.now());
+        setmeal.setUpdateUser(JwtTokenAdminInterceptor.threadLocal.get());
+        //修改套餐表数据
+        setmealMapper.updateSetmeal(setmeal);
+        //判断套餐是关联菜品
+        List<SetmealDish> setmealDishList=setmealDishMapper.findsetmealDishesById(setmealDTO.getId());
+        if(setmealDishList!=null && setmealDishList.size()>0){
+            //删除套餐关联的菜品
+            setmealDishMapper.delectSetmealDish(setmealDTO.getId());
+        }
+        List<SetmealDish> setmealDish=setmealDTO.getSetmealDishes();
+        //setmealId值赋值给setmealDish
+        for (SetmealDish dish : setmealDish) {
+            dish.setSetmealId(setmealDTO.getId());
+        }
+        //新增套餐关联菜品信息
+        setmealDishMapper.addSetmealDish(setmealDish);
+    }
+
+    //批量删除套餐
+    @Transactional
+    @Override
+    public void delect(List<Long> ids) {
+        //获取该套餐的信息
+        List<Setmeal> setmeal=setmealMapper.getSetmeal(ids);
+        //判断该套餐是否为启售状态
+        for (Setmeal setmeal1 : setmeal) {
+            //若为启售状态抛异常
+            if(setmeal1.getStatus().equals(StatusConstant.ENABLE)){
+              throw new DeletionNotAllowedException(MessageConstant.SETMEAL_ON_SALE);
+            }
+        }
+        //套餐表批量删除套餐
+        setmealMapper.delect(ids);
+        //批量删除套餐关联的套餐和菜品的中间表的数据
+        setmealDishMapper.delect(ids);
     }
 }

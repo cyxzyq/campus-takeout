@@ -41,4 +41,13 @@ public interface SetmealMapper {
             "from setmeal left join category on setmeal.category_id=category.id " +
             "where setmeal.id=#{id}")
     SetmealVO findSetmealById(Long id);
+
+    //修改套餐
+    void updateSetmeal(Setmeal setmeal);
+
+    //根据多个套餐id查询多个套餐信息
+    List<Setmeal> getSetmeal(List<Long> ids);
+
+    //批量删除套餐
+    void delect(List<Long> ids);
 }
