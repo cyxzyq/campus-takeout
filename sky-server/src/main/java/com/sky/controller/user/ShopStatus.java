@@ -21,6 +21,7 @@ public class ShopStatus {
     @GetMapping("/status")
     public Result<Integer> getShop() {
         Integer shopStatus = (Integer) redisTemplate.opsForValue().get(KEYS);
+        log.info("营业状态：{}",shopStatus);
         return Result.success(shopStatus);
     }
 }
