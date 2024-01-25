@@ -54,4 +54,13 @@
                #{updateTime},
                 #{createUser},#{updateUser})
     </insert>
+    <select id="list" resultType="com.sky.entity.Category">
+        select * from category
+                 <where>
+                     <if test="type!=null">
+                         type=#{type}
+                     </if>
+                 </where>
+                 order by sort,update_time desc
+    </select>
 </mapper>

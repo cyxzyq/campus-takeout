@@ -22,4 +22,6 @@ public interface DishService {
     DishVO findByIdDish(Long id);
 
     List<Dish> findByCategoryIdDish(Long categoryId);
+
+    List<DishVO> dishList(Long categoryId);
 }

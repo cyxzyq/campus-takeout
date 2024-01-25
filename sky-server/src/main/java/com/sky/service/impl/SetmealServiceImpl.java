@@ -16,6 +16,7 @@ import com.sky.mapper.SetmealDishMapper;
 import com.sky.mapper.SetmealMapper;
 import com.sky.result.PageResult;
 import com.sky.service.SetmealService;
+import com.sky.vo.SetmealDishVO;
 import com.sky.vo.SetmealVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -89,9 +90,9 @@ public class SetmealServiceImpl implements SetmealService {
     @Override
     public SetmealVO findSetmealById(Long id) {
         //根据套餐id查询套餐关联菜品信息
-        List<SetmealDish> setmealDishes=setmealDishMapper.findsetmealDishesById(id);
+        List<SetmealDish> setmealDish=setmealDishMapper.findsetmealDishesById(id);
         SetmealVO setmealVO = setmealMapper.findSetmealById(id);
-        setmealVO.setSetmealDishes(setmealDishes);
+        setmealVO.setSetmealDishes(setmealDish);
         return setmealVO;
     }
 
@@ -137,5 +138,17 @@ public class SetmealServiceImpl implements SetmealService {
         setmealMapper.delect(ids);
         //批量删除套餐关联的套餐和菜品的中间表的数据
         setmealDishMapper.delect(ids);
+    }
+
+    //根据分类id查询套餐
+    @Override
+    public List<Setmeal> findSetmealByCategoryId(Long categoryId) {
+        return setmealMapper.findBycategoryIdSetmeal(categoryId);
+    }
+
+    //根据套餐id查询套餐关联的菜品信息
+    @Override
+    public List<SetmealDishVO> findDishDiBySetmealId(Long id) {
+        return setmealDishMapper.findsetmealDishandDishBysetmealId(id);
     }
 }

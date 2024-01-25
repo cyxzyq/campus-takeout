@@ -61,4 +61,9 @@
         </set>
         where id=#{id}
     </update>
+
+    <select id="dishList" resultType="com.sky.vo.DishVO">
+        select dish.*,category.name as categoryName from dish left join category on category.id=dish.category_id
+        where category_id=#{categoryId} and dish.status=1
+        </select>
 </mapper>
