@@ -30,7 +30,6 @@ public interface CategoryMapper {
     void delect(Long id);
 
     //根据分类类型查询
-    @Select("select * from category where type=#{type} order by sort,update_time desc")
     List<Category> list(Integer type);
 
     //根据菜品id查询菜品名称

@@ -40,4 +40,6 @@ public interface DishMapper {
     //修改菜品
     void updateDish(Dish dish);
 
+    //根据分类id查询菜品及口味信息
+    List<DishVO> dishList(Long categoryId);
 }
