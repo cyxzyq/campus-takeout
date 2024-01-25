@@ -76,4 +76,13 @@
             #{id}
         </foreach>
     </delete>
+    <select id="findBycategoryIdSetmeal" resultType="com.sky.entity.Setmeal">
+        select * from setmeal
+                 <where>
+                     <if test="id!=null">
+                         category_id=#{id}
+                     </if>
+                   and status=1
+                 </where>
+    </select>
 </mapper>
