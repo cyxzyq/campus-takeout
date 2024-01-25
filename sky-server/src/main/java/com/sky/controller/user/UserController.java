@@ -15,11 +15,10 @@ import com.sky.service.UserService;
 import com.sky.utils.JwtUtil;
 import com.sky.vo.DishVO;
 import com.sky.vo.SetmealDishVO;
-import com.sky.vo.SetmealVO;
 import com.sky.vo.UserLoginVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -42,8 +41,6 @@ public class UserController {
     private SetmealService setmealService;
     @Autowired
     private DishService dishService;
-    @Autowired
-    private RedisTemplate redisTemplate;
 
     //微信登录
     @PostMapping("/user/login")
@@ -84,19 +81,11 @@ public class UserController {
     }
 
     //根据分类id查询菜品及口味信息
+    @Cacheable(cacheNames = "dishCache",key = "#categoryId")
     @GetMapping("/dish/list")
     public Result<List<DishVO>> dishList(Long categoryId){
         log.info("分类id:{}",categoryId);
-        String key="categoryId_"+categoryId;
-        //判断缓存中是否存在该数据
-        List<DishVO> dishVOS = (List<DishVO>) redisTemplate.opsForValue().get(key);
-        if(dishVOS!=null && dishVOS.size()>0){
-            return Result.success(dishVOS);
-        }
         List<DishVO> dishVOList=dishService.dishList(categoryId);
-
-        //缓存分类下的菜品信息
-        redisTemplate.opsForValue().set(key,dishVOList);
         return Result.success(dishVOList);
     }
 }

@@ -42,15 +42,6 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
                 .excludePathPatterns("/user/shop/status");
     }
 
-    /**
-     * 设置静态资源映射
-     * @param registry
-     */
-    protected void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/doc.html").addResourceLocations("classpath:/META-INF/resources/");
-        registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
-    }
-
     @Override
     protected void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
      //创建一个消息转化器对象
