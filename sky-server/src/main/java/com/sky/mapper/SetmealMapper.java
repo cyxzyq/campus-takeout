@@ -17,6 +17,7 @@ import java.util.List;
 public interface SetmealMapper {
 
     //根据分类id查询套餐
+    @Select("select * from setmeal where category_id=#{id}")
     List<Setmeal> findBycategoryIdSetmeal(Long id);
 
     //停售和菜品关联的套餐
