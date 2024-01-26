@@ -71,4 +71,12 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         shoppingCart.setUserId(JwtTokenUserInterceptor.threadLocal.get());
         return shoppingCartMapper.findShoppingCart(shoppingCart);
     }
+
+    //清空购物车
+    @Override
+    public void clean() {
+        ShoppingCart shoppingCart = new ShoppingCart();
+        shoppingCart.setUserId(JwtTokenUserInterceptor.threadLocal.get());
+        shoppingCartMapper.clean(shoppingCart);
+    }
 }

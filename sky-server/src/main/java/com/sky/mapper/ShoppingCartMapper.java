@@ -19,4 +19,7 @@ public interface ShoppingCartMapper{
 
     //添加购物车
     void add(ShoppingCart shoppingCart);
+
+    //清空购物车
+    void clean(ShoppingCart shoppingCart);
 }
