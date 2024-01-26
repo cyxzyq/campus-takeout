@@ -67,6 +67,8 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     //查看购物车
     @Override
     public List<ShoppingCart> list() {
-       return shoppingCartMapper.list();
+        ShoppingCart shoppingCart = new ShoppingCart();
+        shoppingCart.setUserId(JwtTokenUserInterceptor.threadLocal.get());
+        return shoppingCartMapper.findShoppingCart(shoppingCart);
     }
 }

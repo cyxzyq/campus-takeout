@@ -19,8 +19,4 @@ public interface ShoppingCartMapper{
 
     //添加购物车
     void add(ShoppingCart shoppingCart);
-
-    //查看购物车
-    @Select("select * from shopping_cart")
-    List<ShoppingCart> list();
 }
