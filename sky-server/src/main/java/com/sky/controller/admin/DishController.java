@@ -26,7 +26,7 @@ public class DishController {
     DishService dishService;
 
     //新增菜品
-    @CachePut(cacheNames = "dishCache",key = "#dishDTO.categoryId")
+    @CacheEvict(cacheNames = "dishCache",key = "#dishDTO.categoryId")
     @PostMapping
     public Result addDish(@RequestBody DishDTO dishDTO){
          log.info("新增菜品:{}",dishDTO);

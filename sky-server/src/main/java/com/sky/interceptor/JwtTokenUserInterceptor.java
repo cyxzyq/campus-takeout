@@ -20,6 +20,8 @@ import javax.servlet.http.HttpServletResponse;
 @Slf4j
 public class JwtTokenUserInterceptor implements HandlerInterceptor {
 
+    public static ThreadLocal<Long> threadLocal=new ThreadLocal();
+
     @Autowired
     private JwtProperties jwtProperties;
 
@@ -48,6 +50,8 @@ public class JwtTokenUserInterceptor implements HandlerInterceptor {
             Claims claims = JwtUtil.parseJWT(jwtProperties.getUserSecretKey(), authentication);
             Long userId = Long.valueOf(claims.get(JwtClaimsConstant.USER_ID).toString());
             log.info("当前用户id：{}", userId);
+            //将当前用户id放入threadLocal中
+            threadLocal.set(userId);
             //3、通过，放行
             return true;
         } catch (Exception ex) {

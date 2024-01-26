@@ -65,6 +65,7 @@ public class UserController {
     }
 
     //根据分类id查询套餐
+    @Cacheable(cacheNames = "setmealCache",key = "#categoryId")
     @GetMapping("/setmeal/list")
     public Result<List<Setmeal>> list(Long categoryId){
         log.info("分类id：{}",categoryId);
