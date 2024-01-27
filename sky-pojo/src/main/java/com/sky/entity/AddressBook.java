@@ -18,7 +18,7 @@ public class AddressBook implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private Long id;
+    private Integer id;
 
     //用户id
     private Long userId;
@@ -29,7 +29,7 @@ public class AddressBook implements Serializable {
     //手机号
     private String phone;
 
-    //性别 0 女 1 男
+    //性别 0 男 1 女
     private String sex;
 
     //省级区划编号

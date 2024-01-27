@@ -61,7 +61,12 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
             shoppingCart.setAmount(setmeal.get(0).getPrice());
         }
         shoppingCart.setCreateTime(LocalDateTime.now());
-        shoppingCartMapper.add(shoppingCart);
+        try {
+            shoppingCartMapper.add(shoppingCart);
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     //查看购物车
@@ -89,6 +94,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         List<ShoppingCart> shoppingCart1 = shoppingCartMapper.findShoppingCart(shoppingCart);
         if (shoppingCart1.get(0).getNumber()==1) {
             shoppingCartMapper.clean(shoppingCart);
+            return;
         }
         ShoppingCart shoppingCart2 = new ShoppingCart();
         shoppingCart2.setNumber(shoppingCart1.get(0).getNumber()-1);
