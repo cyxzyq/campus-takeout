@@ -49,7 +49,7 @@ public class Orders implements Serializable {
     private Long userId;
 
     //地址id
-    private Long addressBookId;
+    private Integer addressBookId;
 
     //下单时间
     private LocalDateTime orderTime;

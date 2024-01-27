@@ -68,10 +68,7 @@ public class AddressBookServiceImpl implements AddressBookService {
     //根据id查询地址信息
     @Override
     public AddressBook getaddressBookDefaultByid(Integer id) {
-        AddressBook addressBook = new AddressBook();
-        addressBook.setUserId(JwtTokenUserInterceptor.threadLocal.get());
-        addressBook.setId(id);
-        return addressBookMapper.listAddressBook(addressBook);
+        return addressBookMapper.listAddressBook(id);
     }
 
     //根据id修改地址

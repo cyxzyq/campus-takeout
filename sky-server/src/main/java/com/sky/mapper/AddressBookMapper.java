@@ -20,8 +20,8 @@ public interface AddressBookMapper {
     void updateaddressBookDefault(AddressBook addressBook);
 
     //根据id查看地址
-    @Select("select * from address_book where user_id=#{userId} and id=#{id}")
-    AddressBook listAddressBook(AddressBook addressBook);
+    @Select("select * from address_book where id=#{id}")
+    AddressBook listAddressBook(Integer id);
 
     //根据id删除地址
     @Delete("delete from address_book where id=#{id}")
