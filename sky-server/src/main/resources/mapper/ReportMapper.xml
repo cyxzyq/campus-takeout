@@ -17,6 +17,7 @@
             </if>
         </where>
     </select>
+
     <select id="userStatistics" resultType="java.math.BigDecimal">
         select count(0) from user
         <where>
@@ -26,6 +27,39 @@
             <if test="end!=null">
                and create_time &lt; #{end}
             </if>
+        </where>
+    </select>
+
+    <select id="ordersStatistics" resultType="java.lang.Integer">
+        select count(0) from orders
+        <where>
+            <if test="begin!=null">
+                order_time &gt; #{begin}
+            </if>
+            <if test="end!=null">
+                and order_time &lt; #{end}
+            </if>
+        <if test="status!=null">
+            and status=#{status}
+        </if>
+        </where>
+    </select>
+
+    <select id="top10" resultType="com.sky.dto.GoodsSalesDTO">
+        select name,sum(order_detail.number) number from orders left join order_detail on orders.id=order_detail.order_id
+        <where>
+            <if test="begin!=null">
+                order_time &gt; #{begin}
+            </if>
+            <if test="end!=null">
+                and order_time &lt; #{end}
+            </if>
+            <if test="status!=null">
+                and status=#{status}
+            </if>
+        group by name
+        order by number desc
+        limit 0,10
         </where>
     </select>
 </mapper>
