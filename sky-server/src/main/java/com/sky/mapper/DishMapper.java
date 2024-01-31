@@ -10,6 +10,7 @@ import org.apache.ibatis.annotations.Select;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface DishMapper {
@@ -42,4 +43,11 @@ public interface DishMapper {
 
     //根据分类id查询菜品及口味信息
     List<DishVO> dishList(Long categoryId);
+
+    /**
+     * 根据条件统计菜品数量
+     * @param map
+     * @return
+     */
+    Integer countByMap(Map map);
 }

@@ -11,6 +11,7 @@ import org.apache.ibatis.annotations.Select;
 import javax.naming.Name;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 //套餐数据修改层
 @Mapper
@@ -49,4 +50,11 @@ public interface SetmealMapper {
 
     //批量删除套餐
     void delect(List<Long> ids);
+
+    /**
+     * 根据条件统计套餐数量
+     * @param map
+     * @return
+     */
+    Integer countByMap(Map map);
 }
