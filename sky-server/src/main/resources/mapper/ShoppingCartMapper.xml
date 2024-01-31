@@ -7,6 +7,13 @@
         insert into shopping_cart(name,user_id,dish_id,setmeal_id,dish_flavor,amount,image,create_time)
         values (#{name},#{userId},#{dishId},#{setmealId},#{dishFlavor},#{amount},#{image},#{createTime})
     </insert>
+    <insert id="addAll">
+        insert into shopping_cart(name,user_id,dish_id,setmeal_id,dish_flavor,amount,image,create_time,number)
+        values
+        <foreach collection="shoppingCarts" item="s" separator=",">
+            (#{s.name},#{s.userId},#{s.dishId},#{s.setmealId},#{s.dishFlavor},#{s.amount},#{s.image},#{s.createTime},#{s.number})
+        </foreach>
+    </insert>
     <update id="update">
         update shopping_cart
         <set>

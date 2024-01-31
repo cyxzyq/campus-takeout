@@ -77,11 +77,11 @@ public class CategoryServiceImpl implements CategoryService {
         List<Dish> dish = dishMapper.findByCategoryId(id);
         List<Setmeal> setmeal=setmealMapper.findBycategoryIdSetmeal(id);
         //判断该分类是否关联了菜品
-        if(dish!=null){
+        if(dish!=null&& dish.size()>0){
             throw new DeletionNotAllowedException(MessageConstant.CATEGORY_BE_RELATED_BY_DISH);
         }
         //判断该分类是否关联了套餐
-        if(setmeal!=null){
+        if(setmeal!=null&& setmeal.size()>0){
             throw  new DeletionNotAllowedException(MessageConstant.CATEGORY_BE_RELATED_BY_SETMEAL);
         }
         //删除分类

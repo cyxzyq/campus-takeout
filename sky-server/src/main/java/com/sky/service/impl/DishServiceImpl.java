@@ -58,7 +58,7 @@ public class DishServiceImpl implements DishService {
 
         List<DishFlavor> dishFlavor = dishDTO.getFlavors();
         //判断菜品的口味是否为空
-        if (dishFlavor != null && dishFlavor.size() != 0) {
+        if (dishFlavor != null && dishFlavor.size() > 0) {
             //遍历dishFlavor集合，将菜品返回的主键值给DishFlavor
             dishFlavor.forEach(dishFlavor1 -> dishFlavor1.setDishId(dish.getId()));
             dishFlavorMapper.addDishFlavor(dishFlavor);
@@ -89,7 +89,7 @@ public class DishServiceImpl implements DishService {
         //查询菜品和套餐的中间表，判断菜品是否与套餐关联
         List<Long> longList=setmealDishMapper.getSetmealByDish(ids);
         if(longList!=null && longList.size()>0){
-            throw new DeletionNotAllowedException(MessageConstant.CATEGORY_BE_RELATED_BY_SETMEAL);
+            throw new DeletionNotAllowedException(MessageConstant.DISH_BE_RELATED_BY_SETMEAL);
         }
             //删除菜品
             dishMapper.delectDish(ids);

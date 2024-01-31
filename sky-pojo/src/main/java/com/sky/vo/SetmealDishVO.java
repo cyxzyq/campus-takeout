@@ -10,6 +10,8 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SetmealDishVO implements Serializable {
+
+    private static final long serialVersionUID = 1L;
             
     //份数
     private Integer copies;

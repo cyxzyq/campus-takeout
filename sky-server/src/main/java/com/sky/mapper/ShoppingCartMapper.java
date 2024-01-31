@@ -22,4 +22,7 @@ public interface ShoppingCartMapper{
 
     //清空购物车
     void clean(ShoppingCart shoppingCart);
+
+    //添加多条购物车数据
+    void addAll(List<ShoppingCart> shoppingCarts);
 }
