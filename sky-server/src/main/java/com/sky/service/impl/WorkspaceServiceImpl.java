@@ -11,6 +11,8 @@ import com.sky.vo.SetmealOverViewVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.HashMap;
@@ -51,8 +53,8 @@ public class WorkspaceServiceImpl implements WorkspaceService {
 
         map.put("status", Orders.COMPLETED);
         //营业额
-        Double turnover = reportMapper.turnoverStatistics(map).doubleValue();
-        turnover = turnover == null? 0.0 : turnover;
+        BigDecimal turnover = reportMapper.turnoverStatistics(map);
+        turnover = turnover == null? BigDecimal.valueOf(0.0) : turnover;
 
         //有效订单数
         Integer validOrderCount = reportMapper.ordersStatistics(map);
@@ -64,14 +66,14 @@ public class WorkspaceServiceImpl implements WorkspaceService {
             //订单完成率
             orderCompletionRate = validOrderCount.doubleValue() / totalOrderCount;
             //平均客单价
-            unitPrice = turnover / validOrderCount;
+            unitPrice = turnover.doubleValue() / validOrderCount;
         }
 
         //新增用户数
         Integer newUsers = reportMapper.userStatistics(map).intValue();
 
         return BusinessDataVO.builder()
-                .turnover(turnover)
+                .turnover(turnover.doubleValue())
                 .validOrderCount(validOrderCount)
                 .orderCompletionRate(orderCompletionRate)
                 .unitPrice(unitPrice)
